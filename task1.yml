@@ -1,0 +1,28 @@
+- name: Disable SELinux
+  selinux:
+    state: disabled
+- name: Install Apache
+    yum:
+      name: httpd
+      state: latest
+      - name: Start Apache httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+- name: Download foo.conf
+  get_url:
+    url: https://www.free-css.com/assets/files/free-css-templates/download/page294/primecare.zip
+    dest: /etc/foo.conf
+    mode: '0440'
+    - name: Extract foo.tgz into /var/lib/foo
+  unarchive:
+    src: foo.tgz
+    dest: /var/lib/foo
+    - name: Recursively change ownership of a directory
+  file:
+    path: /etc/foo
+    state: directory
+    recurse: yes
+    owner: foo
+    group: foo
